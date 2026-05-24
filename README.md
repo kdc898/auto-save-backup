@@ -10,3 +10,9 @@ Further development:
 Ensure compatibility with other file types such as .psd
 Save older versions to other files as savepoints 
 Create a GUI for ease of use
+
+Status:
+5/24/26: added initial Python program that saves a backup of a specified file while in that same folder. 
+More testing is needed for backups of folders. 
+File name is currently hard-coded. 
+The program only works when in the same folder or it throws 'File does not exists!,            please give the complete path'. 
