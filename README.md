@@ -21,4 +21,4 @@ Changed default save location of backup to location of the existing file rather 
 
 6/18/26: Added functionality to save only when there are changes to the watched file, and create iterative backups as savepoints for digital art. Currently set to 2 backup files without any option for variation.
 
-6/25/26: Updated to make the number of iterative save copies variable. Added helper function to name backup files by adding a numeral before the file type extension.
+6/25/26: Updated to make the number of iterative save copies variable. Added helper function to name backup files by adding a numeral before the file type extension. Time between save checks is now variable.
