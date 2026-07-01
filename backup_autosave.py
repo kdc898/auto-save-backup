@@ -6,10 +6,14 @@ import hashlib
 import os
 import sys
 
+#helper function to add a numeral into a file name before the file type extension
 def fileNumeral(filename, numeral):
      parts = filename.split(".")
-     whole = parts[0] + str(numeral) + '.' + parts[1]
-     return whole
+     if(len(parts) == 2):
+         whole = parts[0] + str(numeral) + '.' + parts[1]
+         return whole
+     else: 
+         return None
 
 def calculate_file_hash(file_path):
     with open(file_path, "rb") as f:
@@ -60,9 +64,6 @@ def backup_files(src_file_name,
             #copy the files from source to destination
             shutil.copy2(src_path, dst_dir)
 
-            print("Backup Successful!")
-            print("time: " + datetime.datetime.now().strftime('%Y-%m-%d_%H-%M_'))
-
         except FileNotFoundError:
             print("File does not exists!,\
             please give the complete path")
@@ -74,14 +75,8 @@ def backup_files(src_file_name,
         # Copy the whole folder from source to destination
         shutil.copytree(src_file_name, dst_dir)
 
-def autosave(src_file_name, 
-                dst_file_name=None,
-                src_dir='', 
-                dst_dir='', numCopies=1, saveInterval=300):
-    if src_dir is None or not src_dir or src_dir.isspace():
-        print('')
-    else:
-        src_file_name = src_dir + src_file_name
+def autosave(src_file_name, src_dir, dst_file_name=None, dst_dir='', numCopies=1, saveInterval=30):
+    src_file_name = src_dir + src_file_name
 
     last_hash = calculate_file_hash(src_file_name)
 
@@ -93,26 +88,23 @@ def autosave(src_file_name,
     runcount = 0
     try:
         while True:
-            print('runcount: ' + str(runcount))
             current_hash = calculate_file_hash(src_file_name)
+            #check the hash to see if the file has changed
             if current_hash != last_hash:
-                print("File has changed! Backing up file.")
+                
                 #if this is the first run, we have only 1 file name
                 if(runcount == 0):
-                    print(src_file_name + ',  ' + namelist[0])
                     backup_files(src_file_name, namelist[0], dst_dir = dst_dir)
                 #if the loop has run fewer times than the specified number of copies, add names to the namelist
                 elif (0 < runcount < numCopies):
                     namelist.append(fileNumeral(dst_file_name, runcount))
                     for i in range(len(namelist)-1, 0, -1):
-                        print(namelist[i] + ', ' + namelist[i-1])
                         backup_files(namelist[i-1], namelist[i], dst_dir)
                     backup_files(src_file_name, namelist[0], dst_dir = dst_dir)
                 #all names are in the list; run the update for each file
                 else:
                     #move current most recent saved version to second place
                     for i in range(len(namelist)-1, 0, -1):
-                        print(namelist[i] + ', ' + namelist[i-1])
                         backup_files(namelist[i-1], namelist[i], dst_dir)
                     backup_files(src_file_name, namelist[0], dst_dir = dst_dir)
                 
@@ -126,10 +118,12 @@ def autosave(src_file_name,
 
 
 # Call the function
-codingPath = "C:/Users/kdc89/Documents/coding_work/"
+codingPath = "C:/Users/username/Documents/coding_work/"
 codingFile = "namelist.py"
-source_path = "C:/Users/kdc89/Pictures/ref_pics/studies/"
+backupName = "namelist_backup.py"
+dest_path = codingPath + "backup/"
+numBackups = 3
+#time in minutes between each check for backing up
+timeInterval = 10
 
-dest_path = source_path + "backup/"
-
-autosave(codingFile, "namelist_backup.py", codingPath, dest_path, 3, 10)
+autosave(codingFile, codingPath, backupName, dest_path, numBackups, timeInterval)
