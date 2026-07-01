@@ -1,14 +1,16 @@
 # auto-save-backup
-A repository for a project to automatically back up digital art projects.
+A repository for a python script to create iterative backups of a specified file.
 
-This will be a python script to automatically create a back-up of an in progress digital art project, specifically .clip files as I use Clip Studio Paint. 
+# Initial features: 
+``` python
+autosave(codingFile, codingPath, backupName, dest_path, numBackups, timeInterval)
+```
+Takes file name, file path, backup file name, destination path, number of backup copies, and time interval as inputs. Checks the specified file after the given time interval. If there has been a change in the file in that time, it is saved under the backup file name. 
 
-Initial features: 
-Take an existing file as an input. Save under a designated secondary file name every five minutes if there has been a change to the file in that time.
+Iterative save: this program saves a specified number of backup copies. For example, if there are 3 backups, they would be backupName, backupName1, backupName2. File backupName is the most recent backup, while backupName2 is the oldest. This provides savepoints to return to. 
 
 Further development:
-Ensure compatibility with other file types such as .psd
-Save older versions to other files as savepoints 
+Package project for install
 Create a GUI for ease of use
 
 Status:
@@ -22,3 +24,5 @@ Changed default save location of backup to location of the existing file rather 
 6/18/26: Added functionality to save only when there are changes to the watched file, and create iterative backups as savepoints for digital art. Currently set to 2 backup files without any option for variation.
 
 6/25/26: Updated to make the number of iterative save copies variable. Added helper function to name backup files by adding a numeral before the file type extension. Time between save checks is now variable.
+
+7/1/26: Removed print statements 
