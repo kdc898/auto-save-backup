@@ -26,3 +26,5 @@ Changed default save location of backup to location of the existing file rather 
 6/25/26: Updated to make the number of iterative save copies variable. Added helper function to name backup files by adding a numeral before the file type extension. Time between save checks is now variable.
 
 7/1/26: Removed print statements 
+
+7/27/26: Moved file name validity check from backup function to autosave function, before main loop
