@@ -27,14 +27,8 @@ def backup_files(src_file_name,
                 dst_dir=''):
     src_path = ''
     try:
-      
-          # Extract the date and time
+        # Extract the date and time
         date_format = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M_')
-
-        # If user did not enter any source file then give the error message
-        if not src_file_name:
-            print("Please give the Source File Name")
-            exit()
 
         # Make the source directory where we want to backup our files
         if not src_dir:
@@ -76,13 +70,23 @@ def backup_files(src_file_name,
         shutil.copytree(src_file_name, dst_dir)
 
 def autosave(src_file_name, src_dir, dst_file_name=None, dst_dir='', numCopies=1, saveInterval=30):
-    src_file_name = src_dir + src_file_name
+    #check for valid source file
+    try:
+        # If user did not enter any source file then give the error message
+        if not src_file_name or src_file_name.isspace():
+            print("Please give the Source File Name")
+            exit()
+    except FileNotFoundError:
+            print("File does not exists!,\
+            please give the complete path")
 
-    last_hash = calculate_file_hash(src_file_name)
-
-    #if the backup file name is not specified, use the source file name + '_bak'
+    #if the backup file name is not specified, use 'backup_' + source file name
     if dst_file_name is None or not dst_file_name or dst_file_name.isspace():
-        dst_file_name += '_bak'    
+        dst_file_name = 'backup_' + src_file_name
+    print(dst_file_name)
+
+    src_file_name = src_dir + src_file_name
+    last_hash = calculate_file_hash(src_file_name)
 
     namelist = [dst_file_name]
     runcount = 0
@@ -115,8 +119,7 @@ def autosave(src_file_name, src_dir, dst_file_name=None, dst_dir='', numCopies=1
             
     except KeyboardInterrupt:
         print("\nAuto-saver stopped by user.")
-
-
+         
 # Call the function
 codingPath = "C:/Users/username/Documents/coding_work/"
 codingFile = "namelist.py"
