@@ -10,6 +10,7 @@ Takes file name, file path, backup file name, destination path, number of backup
 Iterative save: this program saves a specified number of backup copies. For example, if there are 3 backups, they would be backupName, backupName1, backupName2. File backupName is the most recent backup, while backupName2 is the oldest. This provides savepoints to return to. 
 
 Further development:
+More robust error handling, especially for fileNumeral helper function
 Package project for install
 Create a GUI for ease of use
 
